@@ -19,11 +19,12 @@
 
 (defn calc-plan [e]
   (if (sel1 (keyword "input[name=plan]:checked"))
-    (let [plan      (get plan/plans (keyword (.-value (sel1 (keyword "input[name=plan]:checked")))))
-          skip-days (map (fn day-input->keyword [day-input]
-                           (keyword (.-value day-input)))
-                         (sel (keyword "input[name=skip-day]:checked")))
-          days      (take (count plan) (filter (complement (partial time-ui/day-in skip-days)) (time-ui/days-from-now)))]
+    (let [plan            (get plan/plans (keyword (.-value (sel1 (keyword "input[name=plan]:checked")))))
+          skip-days       (map (fn day-input->keyword [day-input]
+                                 (keyword (.-value day-input)))
+                               (sel (keyword "input[name=skip-day]:checked")))
+          books-at-a-time (.-value (sel1 (keyword "input[name=books-at-a-time]:checked")))
+          days            (take (count plan) (filter (complement (partial time-ui/day-in skip-days)) (time-ui/days-from-now)))]
       (show-plan plan days))))
 
 (comment
